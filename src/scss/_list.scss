@@ -1,0 +1,6 @@
+@import 'variables';
+@import 'utilities';
+
+.list {
+    @include flexCenter(column);
+}

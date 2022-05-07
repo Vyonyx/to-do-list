@@ -1,3 +1,4 @@
-import './style.scss';
+import './scss/style.scss';
+import layout from './layout'
 
-console.log('Hello World');
+document.body.appendChild(layout.container);

@@ -1,0 +1,20 @@
+@import 'variables';
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+    color: white;
+}
+
+h1 {
+    color: $gold;
+}
+
+a {
+    text-decoration: none;
+}
