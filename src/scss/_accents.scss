@@ -1,0 +1,21 @@
+@import 'variables';
+@import 'utilities';
+
+.accents {
+    .horizontal.line {
+        background-color: $pink;
+        position: absolute;
+        top: $header-height;
+        left: calc(0% + $base-offset);
+        right: calc(0% + $base-offset);
+        height: $line-width;
+    }
+    .vertical.line {
+        background-color: $pink;
+        position: absolute;
+        top: calc(0% + $header-height);
+        bottom: calc(0% + $base-offset);
+        left: $list-width;
+        width: $line-width;
+    }
+}

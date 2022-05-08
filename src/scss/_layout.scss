@@ -2,16 +2,13 @@
 @import 'utilities';
 
 .layout.container {
-    background-color: $base-background;
+    background-color: $purple;
     width: 100vw;
     height: 100vh;
     display: grid;
-    grid-template-columns: 300px auto;
-    grid-template-rows: 100px auto;
-    position: relative;
-    div {
-        border: 1px solid black;
-    }
+    grid-template-columns: $list-width auto;
+    grid-template-rows: $header-height auto;
+    position: fixed;
     .list {
         grid-row: 1 / -1;
     }

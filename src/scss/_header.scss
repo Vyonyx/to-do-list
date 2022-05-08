@@ -1,9 +1,9 @@
 @import 'variables';
 @import 'utilities';
 
-.list.container {
-    @include flexCenter(column);
-    .top-title {
+.header.container {
+    @include flexCenter(row);
+    h1 {
         @include positionTitles();
     }
 }

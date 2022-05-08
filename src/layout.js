@@ -14,10 +14,12 @@ const layout = (function () {
     header.classList.add('header', 'container')
 
     const projectListHeading = document.createElement('h1')
+    projectListHeading.classList.add('top-title')
     projectListHeading.innerText = 'Project List'
     addToListContainer(projectListHeading)
 
     const projectTitle = document.createElement('h1')
+    projectTitle.classList.add('top-title')
     projectTitle.innerText = 'All Notes'
     addToHeader(projectTitle)
 
@@ -29,10 +31,13 @@ const layout = (function () {
     function addProject(details) {projects.push(details)}
     function addToListContainer(item) {listContainer.appendChild(item)}
     function addToHeader(item) {header.appendChild(item)}
-    function addToNotesContainer(item) {notesContainer.appendChild(item)}
+    function updateProjectTitle(title) {projectTitle.innerText = title}
 
     return {
         projects,
+        updateProjectTitle,
+        listContainer,
+        notesContainer,
         container,
         addProject
     }
