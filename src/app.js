@@ -1,7 +1,6 @@
 import './scss/style.scss'
 import layout from './layout'
-import accentItems from './accents'
-import { addNote } from './components'
+import { addNote, accentItems } from './components'
 import { projectList } from './side-bar'
 import displayViewer from './notes-display'
 

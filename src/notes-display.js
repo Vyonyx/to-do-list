@@ -6,7 +6,6 @@ const displayViewer = (function() {
     const container = layout.notesContainer
 
     populateAllCards()
-    // populateCurrentProjectCards()
 
     function populateAllCards() {
         deleteAllCards()
@@ -20,7 +19,9 @@ const displayViewer = (function() {
     function populateCurrentProjectCards(identifier) {
         deleteAllCards()
         notesManager.projects.forEach(project => {
-            if (project.title == identifier) {
+            if (project.title == 'All Notes' && project.title == identifier) {
+                populateAllCards()
+            } else if (project.title == identifier) {
                 project.notes.forEach(note => {
                     createNewCard(note)
                 })
@@ -46,7 +47,9 @@ const displayViewer = (function() {
             toDoItem.innerText = text
             cardContainer.appendChild(toDoItem)
         })
-
+        const addNewItemButton = document.createElement('button')
+        addNewItemButton.innerText = 'X'
+        cardContainer.appendChild(addNewItemButton)
         container.appendChild(cardContainer)
     }
     return {

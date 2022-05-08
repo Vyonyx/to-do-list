@@ -1,0 +1,35 @@
+@import 'variables';
+@import 'utilities';
+
+.notes.container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 35px;
+
+    .card {
+        position: relative;
+        padding: 50px;
+        background: black;
+        border: $gold 1px solid;
+        border-radius: 20px;
+        justify-self: stretch;
+        align-self: start;
+        button {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 25px;
+            height: 25px;
+            font-size: small;
+            border: $gold 1px solid;
+            color: $gold;
+            background: black;
+            border-radius: 50%;
+            &:hover {
+                border-width: 2px;
+                font-weight: 700;
+            }
+        }
+    }
+}
