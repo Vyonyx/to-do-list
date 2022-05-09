@@ -72,9 +72,10 @@ const displayViewer = (function() {
         addNewItemButton.addEventListener('click', function() {
             while (cardContainer.firstChild) {
                 cardContainer.removeChild(cardContainer.lastChild)
-                const parent = document.querySelector('.notes.container')
-                parent.removeChild(cardContainer)
             }
+            const parent = document.querySelector('.notes.container')
+            parent.removeChild(cardContainer)
+            notesManager.removeFromProjects(note)
         })
 
         cardContainer.appendChild(addNewItemButton)

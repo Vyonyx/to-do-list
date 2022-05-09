@@ -27,11 +27,9 @@ const notesManager = (function(){
 
     function createNewNote(noteTitle) {
         const noteList = []
-        const checkedList = []
         return {
             title: noteTitle,
             items: noteList,
-            checked: checkedList,
             addNewItem: function(note) {
                 noteList.push(note)
             },
@@ -53,13 +51,25 @@ const notesManager = (function(){
             }
         }
     }
+    function removeFromProjects(removeNote) {
+        projects.forEach(project => { // Object
+            project.notes.forEach(note => { // Object
+                const currentIndex = project.notes.indexOf(note)
+                if (note == removeNote) {
+                    project.notes.splice(currentIndex, 1)
+                }
+            })
+        })
+    }
 
+    removeFromProjects('London Itinerary')
     function addToProjectList(project) {projects.push(project)}
 
     return {
         projects,
         createNewNote,
         addToProjectList,
+        removeFromProjects,
     }
 })()
 
