@@ -11,6 +11,7 @@ const notesManager = (function(){
     addToProjectList(project1)
     const project2 = createProject('Work')
     addToProjectList(project2)
+
     const note1 = createNewNote('Leaving New Zealand')
     note1.addNewItem('Book tickets')
     note1.addNewItem('Pack bags')
@@ -26,15 +27,14 @@ const notesManager = (function(){
 
     function createNewNote(noteTitle) {
         const noteList = []
+        const checkedList = []
         return {
             title: noteTitle,
             items: noteList,
-            addNewItem: function (note) {
+            checked: checkedList,
+            addNewItem: function(note) {
                 noteList.push(note)
             },
-            logItems: function () {
-                noteList.forEach(note => console.log(note))
-            }
         }
     }
 
