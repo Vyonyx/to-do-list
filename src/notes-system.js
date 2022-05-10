@@ -25,6 +25,7 @@ const notesManager = (function(){
     project1.addNewNote(note1)
     project1.addNewNote(note2)
 
+    // Create new data.
     function createNewNote(noteTitle) {
         const noteList = []
         return {
@@ -51,6 +52,8 @@ const notesManager = (function(){
             }
         }
     }
+
+    // Manipulate data.
     function removeFromProjects(removeNote) {
         projects.forEach(project => { // Object
             project.notes.forEach(note => { // Object
@@ -73,4 +76,6 @@ const notesManager = (function(){
     }
 })()
 
-export default notesManager
+// export default notesManager
+
+console.table(notesManager.projects)
