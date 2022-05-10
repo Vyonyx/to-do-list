@@ -4,78 +4,44 @@ const notesManager = (function(){
 
     let projects = [];
 
-    const allProjects = createProject('All Notes')
-    addToProjectList(allProjects)
-
-    const project1 = createProject('Trip Overseas')
-    addToProjectList(project1)
-    const project2 = createProject('Work')
-    addToProjectList(project2)
-
-    const note1 = createNewNote('Leaving New Zealand')
-    note1.addNewItem('Book tickets')
-    note1.addNewItem('Pack bags')
-    note1.addNewItem('Book public transport')
-
-    const note2 = createNewNote('London Itinerary')
-    note2.addNewItem('See London eye')
-    note2.addNewItem('Visit Hambden Markets')
-    note2.addNewItem('Grab a drink at Soho')
-    
-    project1.addNewNote(note1)
-    project1.addNewNote(note2)
-
     // Create new data.
-    function createNewNote(noteTitle) {
-        const noteList = []
-        return {
-            title: noteTitle,
-            items: noteList,
-            addNewItem: function(note) {
-                noteList.push(note)
-            },
+    function createNewNote(title, projectTitle, description, dueDate, priority) {
+        const note = {
+            title,
+            description: typeof description === 'undefined' ? '' : description,
+            dueDate: typeof dueDate === 'undefined' ? 'Unlimited Time' : dueDate,
+            priority: typeof priority === 'undefined'? 'low' : priority,
+        }
+        if (projectTitle == null) {
+            projects[0].addNewNote(note)
+        } else if (projectTitle) {
+            findProject(projectTitle).addNewNote(note)
         }
     }
 
     function createProject(title) {
-        const notes = []
-        return {
+        const project = {
             title,
-            notes,
-            addNewNote: function(note) {
-                notes.push(note)
-            },
-            logAllNotes: function() {
-                notes.forEach(note => {
-                    console.table(note)
-                })
-            }
+            notes: [],
+            addNewNote: function(note) { this.notes.push(note) },
+            logAllNotes: function() {console.table(this.notes)}
         }
+        projects.push(project)
     }
 
-    // Manipulate data.
-    function removeFromProjects(removeNote) {
-        projects.forEach(project => { // Object
-            project.notes.forEach(note => { // Object
-                const currentIndex = project.notes.indexOf(note)
-                if (note == removeNote) {
-                    project.notes.splice(currentIndex, 1)
-                }
-            })
-        })
-    }
-
-    removeFromProjects('London Itinerary')
-    function addToProjectList(project) {projects.push(project)}
+    const findProject = title => projects[projects.findIndex(projects => projects.title == title)]
 
     return {
         projects,
+        findProject,
+        createProject,
         createNewNote,
-        addToProjectList,
-        removeFromProjects,
     }
 })()
 
 // export default notesManager
 
-console.table(notesManager.projects)
+notesManager.createProject('All Notes')
+notesManager.createProject('Overseas Trip')
+notesManager.createNewNote('Hello World', "Overseas Trip")
+notesManager.createNewNote('It\'s me again!', "Overseas Trip")
