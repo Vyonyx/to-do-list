@@ -4,7 +4,21 @@ const notesManager = (function(){
 
     let projects = [];
 
-    // Create new data.
+    function createProject(title) {
+        const project = {
+            title,
+            notes: [],
+            addNewNote: function(note) { this.notes.push(note) },
+            logAllNotes: function() {console.table(this.notes)},
+            editNote: function(title) {
+                return this.notes.entries()
+            }
+        }
+        projects.push(project)
+    }
+
+    const findProject = title => projects[projects.findIndex(projects => projects.title == title)]
+
     function createNewNote(title, projectTitle, description, dueDate, priority) {
         const note = {
             title,
@@ -19,23 +33,16 @@ const notesManager = (function(){
         }
     }
 
-    function createProject(title) {
-        const project = {
-            title,
-            notes: [],
-            addNewNote: function(note) { this.notes.push(note) },
-            logAllNotes: function() {console.table(this.notes)}
-        }
-        projects.push(project)
+    function editNote(note) {
+
     }
 
-    const findProject = title => projects[projects.findIndex(projects => projects.title == title)]
 
     return {
         projects,
-        findProject,
         createProject,
         createNewNote,
+        findProject,
     }
 })()
 
@@ -45,3 +52,4 @@ notesManager.createProject('All Notes')
 notesManager.createProject('Overseas Trip')
 notesManager.createNewNote('Hello World', "Overseas Trip")
 notesManager.createNewNote('It\'s me again!', "Overseas Trip")
+console.table(notesManager.findProject('Overseas Trip').editNote())
