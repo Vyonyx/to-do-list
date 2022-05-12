@@ -9,15 +9,13 @@ const notesManager = (function(){
             title,
             notes: [],
             addNewNote: function(note) { this.notes.push(note) },
-            logAllNotes: function() {console.table(this.notes)},
-            editNote: function(title) {
-                return this.notes.entries()
-            }
+            getNote: function(title) { return this.notes.find(x => x.title == title) },
         }
         projects.push(project)
     }
 
     const findProject = title => projects[projects.findIndex(projects => projects.title == title)]
+    const getAllNotes = () => projects.flatMap(project => project.notes)
 
     function createNewNote(title, projectTitle, description, dueDate, priority) {
         const note = {
@@ -33,16 +31,12 @@ const notesManager = (function(){
         }
     }
 
-    function editNote(note) {
-
-    }
-
-
     return {
         projects,
         createProject,
-        createNewNote,
         findProject,
+        createNewNote,
+        getAllNotes,
     }
 })()
 
@@ -50,6 +44,9 @@ const notesManager = (function(){
 
 notesManager.createProject('All Notes')
 notesManager.createProject('Overseas Trip')
+notesManager.createProject('Work Goals')
 notesManager.createNewNote('Hello World', "Overseas Trip")
 notesManager.createNewNote('It\'s me again!', "Overseas Trip")
-console.table(notesManager.findProject('Overseas Trip').editNote())
+notesManager.createNewNote('Get a new job', "Work Goals")
+
+console.table(notesManager.getAllNotes())
