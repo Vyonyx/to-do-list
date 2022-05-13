@@ -1,6 +1,6 @@
 import layout from './layout'
-import notesManager from './notes-system'
 import displayViewer from './notes-display'
+import notesManager from './notes-system'
 
 // Responsible for the display of the projects list.
 const projectList = (function(){

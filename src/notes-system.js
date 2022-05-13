@@ -3,6 +3,10 @@
 const notesManager = (function(){
 
     let projects = [];
+    const allNotes = 'All Notes'
+
+    createProject(allNotes)
+    findProject(allNotes).addNewNote(createNewNote('Book a trip.'))
 
     function createProject(title) {
         const project = {
@@ -14,7 +18,9 @@ const notesManager = (function(){
         projects.push(project)
     }
 
-    const findProject = title => projects[projects.findIndex(projects => projects.title == title)]
+    function findProject(title) {
+        return projects[projects.findIndex(projects => projects.title == title)]
+    }
     const getAllNotes = () => projects.flatMap(project => project.notes)
 
     function createNewNote(title, projectTitle, description, dueDate, priority) {
@@ -37,16 +43,8 @@ const notesManager = (function(){
         findProject,
         createNewNote,
         getAllNotes,
+        allNotes,
     }
 })()
 
-// export default notesManager
-
-notesManager.createProject('All Notes')
-notesManager.createProject('Overseas Trip')
-notesManager.createProject('Work Goals')
-notesManager.createNewNote('Hello World', "Overseas Trip")
-notesManager.createNewNote('It\'s me again!', "Overseas Trip")
-notesManager.createNewNote('Get a new job', "Work Goals")
-
-console.table(notesManager.getAllNotes())
+export default notesManager
