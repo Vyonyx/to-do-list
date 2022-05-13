@@ -1,9 +1,11 @@
 import './scss/style.scss'
-import { layoutManager, projectListManager } from './notes-display'
+import notesManager from './notes-manager'
+import { layoutManager, projectListManager, cardManager } from './notes-display'
 import { addNote, accentItems } from './components'
 
-document.body.appendChild(layoutManager.container)
-document.body.appendChild(accentItems.container)
-document.body.appendChild(addNote.button)
+function addToBody(items) {return Array.isArray(items) ? items.forEach(item => document.body.append(item)) : document.body.appendChild(item) }
 
-layoutManager.listContainer.appendChild(projectListManager.projects)
+addToBody([layoutManager.container, accentItems.container, addNote.button])
+
+const allNotes = notesManager.getAllNotes()
+cardManager.populateAllCards(allNotes)

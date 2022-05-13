@@ -2,48 +2,50 @@
 // Creates projects and the notes within it.
 const notesManager = (function(){
 
-    let projects = [];
+    let projects = []
+
     const allNotes = 'All Notes'
     const projectListTitle = 'Project List'
 
-    createProject(allNotes)
-    findProject(allNotes).addNewNote(createNewNote('Book a trip.'))
-    createProject('Yolo')
+    const myProject = createProject(allNotes)
+    const myNote = createNote('Hello Word', 'Does this work?')
 
     function createProject(title) {
         const project = {
             title,
             notes: [],
-            addNewNote: function(note) { this.notes.push(note) },
+            addNote: function(note) { this.notes.push(note) },
             getNote: function(title) { return this.notes.find(x => x.title == title) },
         }
         projects.push(project)
+        return project
     }
 
-    function findProject(title) {
-        return projects[projects.findIndex(projects => projects.title == title)]
-    }
-    const getAllNotes = () => projects.flatMap(project => project.notes)
-
-    function createNewNote(title, projectTitle, description, dueDate, priority) {
+    
+    function createNote(title, firstItem, projectTitle, description, dueDate, priority) {
         const note = {
             title,
             description: typeof description === 'undefined' ? '' : description,
             dueDate: typeof dueDate === 'undefined' ? 'Unlimited Time' : dueDate,
             priority: typeof priority === 'undefined'? 'low' : priority,
+            items: [firstItem],
+            addItem: function(newItem) { this.items.push(newItem) }
         }
         if (projectTitle == null) {
-            projects[0].addNewNote(note)
+            projects[0].addNote(note)
         } else if (projectTitle) {
-            findProject(projectTitle).addNewNote(note)
+            findProject(projectTitle).addNote(note)
         }
     }
+
+    function findProject(title) { return projects[projects.findIndex(projects => projects.title == title)] }
+    const getAllNotes = () => projects.flatMap(project => project.notes)
 
     return {
         projects,
         createProject,
         findProject,
-        createNewNote,
+        createNewNote: createNote,
         getAllNotes,
         allNotes,
         projectListTitle,
