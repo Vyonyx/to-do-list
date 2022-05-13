@@ -17,7 +17,7 @@ function createHeadingElement(type, text, classID) {
 
 const layoutManager = (function () {
 
-    // let projectsList = [];
+    let projectsList = [];
 
     function addToContainer(items) { items.forEach(item => container.appendChild(item)) }
     
@@ -37,7 +37,7 @@ const layoutManager = (function () {
     function addToHeader(item) { header.appendChild(item) }
     
     return {
-        // projectsList,
+        projectsList,
         container,
         listContainer,
         notesContainer,
@@ -45,7 +45,7 @@ const layoutManager = (function () {
         addToListContainer,
         addToHeader,
         updateProjectTitle: function(title) { projectTitle.innerText = title },
-        // addProject: function(details) { projectsList.push(details) },
+        addProject: function(details) { projectsList.push(details) },
     }
 
 })()
@@ -54,28 +54,26 @@ const layoutManager = (function () {
 
 const projectListManager = (function(){
 
-    const projects = createContainerElement('div', 'project-list')
-
-    refreshList()
-
-    function refreshList() {
+    const projects = createContainerElement('div')
+    refreshList(notesManager.getProjectList())
+    
+    function refreshList(list) {
         while (projects.firstChild) {projects.removeChild(projects.lastChild)}
-        notesManager.projects.forEach(project => {
-            createNewProjectHeading(project.title)
-        })
+        list.forEach(item => createNewProjectHeading(item))
     }
 
     function createNewProjectHeading(title) {
-        const heading = createHeadingElement('h3', title, 'project-heading')
+        const heading = createHeadingElement('h3', title)
         heading.dataset.project = title
+        layoutManager.listContainer.appendChild(heading)
+
         heading.addEventListener('click', function() {
-            layoutManager.updateLayoutTitle(title)
+            layoutManager.updateProjectTitle(title)
             cardManager.populateCurrentProjectCards(heading.dataset.project)
         })
-        projects.appendChild(heading)
     }
 
-    return { projects }
+    return { refreshList }
 
 })()
 
@@ -94,17 +92,23 @@ const cardManager = (function() {
         allNotes.forEach(note => createCard(note))
     }
 
-    function populateCurrentProjectCards(identifier) {
+    function populateCurrentProjectCards(selectedListHeading) {
         deleteAllCards()
-        notesManager.projects.forEach(project => {
-            if (project.title == notesManager.allNotes && project.title == identifier) {
-                populateAllCards()
-            } else if (project.title == identifier) {
-                project.notes.forEach(note => {
-                    createCard(note)
-                })
-            }
-        })
+        if (selectedListHeading == notesManager.allNotes) {
+            populateAllCards(notesManager.getAllNotes())
+        } else {
+            const project = notesManager.projects.find(project => project.title == selectedListHeading)
+            project.notes.forEach(item => createCard(item))
+        }
+        // notesManager.projects.forEach(project => {
+        //     if (project.title == notesManager.allNotes && project.title == selectedListHeading) {
+        //         populateAllCards()
+        //     } else if (project.title == selectedListHeading) {
+        //         project.notes.forEach(note => {
+        //             createCard(note)
+        //         })
+        //     }
+        // })
     }
 
     function createCard(note) {

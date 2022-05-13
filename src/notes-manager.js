@@ -17,6 +17,7 @@ const notesManager = (function(){
         'high'
     )
 
+    const newProject = createProject('Please work')
     function createProject(title) {
         const project = {
             title,
@@ -45,13 +46,15 @@ const notesManager = (function(){
     }
 
     function findProject(title) { return projects[projects.findIndex(projects => projects.title == title)] }
+    const getProjectList = () => projects.flatMap(project => project.title)
     const getAllNotes = () => projects.flatMap(project => project.notes)
 
     return {
         projects,
         createProject,
         findProject,
-        createNewNote: createNote,
+        getProjectList,
+        createNote,
         getAllNotes,
         allNotes,
         projectListTitle,
