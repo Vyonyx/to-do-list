@@ -8,7 +8,14 @@ const notesManager = (function(){
     const projectListTitle = 'Project List'
 
     const myProject = createProject(allNotes)
-    const myNote = createNote('Hello Word', 'Does this work?')
+    const myNote = createNote(
+        'Hello World', 
+        'Does this work?',
+        null,
+        'A general representation of how my card may be formatted.',
+        '15/05',
+        'high'
+    )
 
     function createProject(title) {
         const project = {
@@ -20,15 +27,14 @@ const notesManager = (function(){
         projects.push(project)
         return project
     }
-
     
     function createNote(title, firstItem, projectTitle, description, dueDate, priority) {
         const note = {
             title,
             description: typeof description === 'undefined' ? '' : description,
-            dueDate: typeof dueDate === 'undefined' ? 'Unlimited Time' : dueDate,
-            priority: typeof priority === 'undefined'? 'low' : priority,
             items: [firstItem],
+            dueDate: typeof dueDate === 'undefined' ? '' : dueDate,
+            priority: typeof priority === 'undefined'? '' : priority,
             addItem: function(newItem) { this.items.push(newItem) }
         }
         if (projectTitle == null) {

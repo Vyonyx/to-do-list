@@ -2,14 +2,14 @@ import notesManager from './notes-manager'
 
 function createContainerElement(type, classID) {
     const container = document.createElement(type)
-    container.classList.add(classID, 'container')
+    if (classID) { container.classList.add(classID, 'container') }
     return container
 }
 
-function createHeadingElement(type, classID, text) {
+function createHeadingElement(type, text, classID) {
     const heading = document.createElement(type)
-    heading.classList.add(classID)
     heading.innerText = text
+    if (classID) { heading.classList.add(classID) }
     return heading
 }
 
@@ -17,7 +17,7 @@ function createHeadingElement(type, classID, text) {
 
 const layoutManager = (function () {
 
-    let projectsList = [];
+    // let projectsList = [];
 
     function addToContainer(items) { items.forEach(item => container.appendChild(item)) }
     
@@ -26,8 +26,8 @@ const layoutManager = (function () {
     const notesContainer = createContainerElement('div', 'notes')
     const header = createContainerElement('div', 'header')
     
-    const projectListHeading = createHeadingElement('h1', 'top-title', notesManager.projectListTitle)
-    const projectTitle = createHeadingElement('h1', 'top-title', notesManager.allNotes)
+    const projectListHeading = createHeadingElement('h1', notesManager.projectListTitle, 'top-title')
+    const projectTitle = createHeadingElement('h1', notesManager.allNotes, 'top-title')
     addToListContainer(projectListHeading)
     addToHeader(projectTitle)
 
@@ -37,7 +37,7 @@ const layoutManager = (function () {
     function addToHeader(item) { header.appendChild(item) }
     
     return {
-        projectsList,
+        // projectsList,
         container,
         listContainer,
         notesContainer,
@@ -45,7 +45,7 @@ const layoutManager = (function () {
         addToListContainer,
         addToHeader,
         updateProjectTitle: function(title) { projectTitle.innerText = title },
-        addProject: function(details) { projectsList.push(details) },
+        // addProject: function(details) { projectsList.push(details) },
     }
 
 })()
@@ -66,7 +66,7 @@ const projectListManager = (function(){
     }
 
     function createNewProjectHeading(title) {
-        const heading = createHeadingElement('h3', 'project-heading', title)
+        const heading = createHeadingElement('h3', title, 'project-heading')
         heading.dataset.project = title
         heading.addEventListener('click', function() {
             layoutManager.updateLayoutTitle(title)
@@ -97,7 +97,7 @@ const cardManager = (function() {
     function populateCurrentProjectCards(identifier) {
         deleteAllCards()
         notesManager.projects.forEach(project => {
-            if (project.title == 'All Notes' && project.title == identifier) {
+            if (project.title == notesManager.allNotes && project.title == identifier) {
                 populateAllCards()
             } else if (project.title == identifier) {
                 project.notes.forEach(note => {
@@ -108,52 +108,24 @@ const cardManager = (function() {
     }
 
     function createCard(note) {
-        const cardContainer = createContainerElement('div', 'card')
-        const cardTitle = createHeadingElement('h3', 'card-title', note.title)
-        cardContainer.appendChild(cardTitle)
 
-        // note.items.forEach((text, index) => {
-        //     const itemHolder = document.createElement('div')
-        //     const checkbox = document.createElement('input')
-        //     const item = document.createElement('label')
+        const container = createContainerElement('div', 'card')
+        const title = createHeadingElement('h3', note.title, 'card-title')
+        const description = createHeadingElement('p', note.description)
+        const dueDate = createHeadingElement('h5', note.dueDate)
+        const priority = createHeadingElement('h5', note.priority)
 
-        //     itemHolder.classList.add('item-holder')
-        //     checkbox.type = 'checkbox'
-        //     checkbox.id = `checkbox-${index}`
-        //     item.htmlFor = `checkbox-${index}`
-        //     item.appendChild(document.createTextNode(text))
+        addToContainer([title, description, dueDate, priority])
+        layoutManager.notesContainer.appendChild(container)
 
-        //     checkbox.addEventListener('change', function() {
-        //         if (this.checked) {
-        //             item.classList.add('strike')
-        //         } else {
-        //             item.classList.remove('strike')
-        //         }
-        //     })
-
-        //     itemHolder.appendChild(checkbox)
-        //     itemHolder.appendChild(item)
-        //     cardContainer.appendChild(itemHolder)
-        // })
-        // const addNewItemButton = document.createElement('button')
-        // addNewItemButton.innerText = 'X'
-        // addNewItemButton.addEventListener('click', function() {
-        //     while (cardContainer.firstChild) {
-        //         cardContainer.removeChild(cardContainer.lastChild)
-        //     }
-        //     const parent = document.querySelector('.notes.container')
-        //     parent.removeChild(cardContainer)
-        //     notesManager.removeFromProjects(note)
-        // })
-
-        // cardContainer.appendChild(addNewItemButton)
-        layoutManager.notesContainer.appendChild(cardContainer)
+        function addToContainer(items) { items.forEach(item => container.appendChild(item)) }
     }
 
     return {
         populateAllCards,
         populateCurrentProjectCards
     }
+    
 })()
 
 export { layoutManager, projectListManager, cardManager }
