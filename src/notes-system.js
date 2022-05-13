@@ -4,6 +4,7 @@ const notesManager = (function(){
 
     let projects = [];
     const allNotes = 'All Notes'
+    const projectListTitle = 'Project List'
 
     createProject(allNotes)
     findProject(allNotes).addNewNote(createNewNote('Book a trip.'))
@@ -44,6 +45,7 @@ const notesManager = (function(){
         createNewNote,
         getAllNotes,
         allNotes,
+        projectListTitle,
     }
 })()
 
