@@ -1,54 +1,61 @@
-import notesManager from './notes-system'
+import notesManager from './notes-manager'
 
-// Responsible for the representation of the layout.
-const layout = (function () {
+function createContainerElement(type, classID) {
+    const container = document.createElement(type)
+    container.classList.add(classID, 'container')
+    return container
+}
+
+function createHeadingElement(type, classID, text) {
+    const heading = document.createElement(type)
+    heading.classList.add(classID)
+    heading.innerText = text
+    return heading
+}
+
+
+
+const layoutManager = (function () {
+
     let projectsList = [];
 
-    function createElementContainer(type, classID) {
-        const container = document.createElement(type)
-        container.classList.add(classID, 'container')
-        return container
-    }
-
-    function createHeading(type, classID, text) {
-        const heading = document.createElement(type)
-        heading.classList.add(classID)
-        heading.innerText = text
-        return heading
-    }
+    function addToContainer(items) { items.forEach(item => container.appendChild(item)) }
     
-    const container = createElementContainer('div', 'layout')
-    const listContainer = createElementContainer('div', 'list')
-    const notesContainer = createElementContainer('div', 'notes')
-    const header = createElementContainer('div', 'header')
+    const container = createContainerElement('div', 'layout')
+    const listContainer = createContainerElement('div', 'list')
+    const notesContainer = createContainerElement('div', 'notes')
+    const header = createContainerElement('div', 'header')
     
-    
-    const projectListHeading = createHeading('h1', 'top-title', notesManager.projectListTitle)
-    const projectTitle = createHeading('h1', 'top-title', notesManager.allNotes)
+    const projectListHeading = createHeadingElement('h1', 'top-title', notesManager.projectListTitle)
+    const projectTitle = createHeadingElement('h1', 'top-title', notesManager.allNotes)
     addToListContainer(projectListHeading)
     addToHeader(projectTitle)
-    
-    container.appendChild(listContainer)
-    container.appendChild(header)
-    container.appendChild(notesContainer)
 
+    addToContainer([listContainer, header, notesContainer])
+    
+    function addToListContainer(item) { listContainer.appendChild(item) }
+    function addToHeader(item) { header.appendChild(item) }
+    
     return {
         projectsList,
         container,
         listContainer,
         notesContainer,
+
+        addToListContainer,
+        addToHeader,
         updateProjectTitle: function(title) { projectTitle.innerText = title },
         addProject: function(details) { projectsList.push(details) },
-        addToListContainer: function(item) { listContainer.appendChild(item) },
-        addToHeader: function(item) { header.appendChild(item) }
     }
+
 })()
 
-// Responsible for the display of the projects list.
-const projectList = (function(){
 
-    const projects = document.createElement('div')
-    projects.classList.add('project-list')
+
+const projectListManager = (function(){
+
+    const projects = createContainerElement('div', 'project-list')
+
     refreshList()
 
     function refreshList() {
@@ -57,29 +64,25 @@ const projectList = (function(){
             createNewProjectHeading(project.title)
         })
     }
-    // Creating the individual headings that will go in the list of projects div.
+
     function createNewProjectHeading(title) {
-        const heading = document.createElement('h3')
+        const heading = createHeadingElement('h3', 'project-heading', title)
         heading.dataset.project = title
-        heading.innerText = title
         heading.addEventListener('click', function() {
-            updateLayoutTitle(title)
+            layoutManager.updateLayoutTitle(title)
             displayViewer.populateCurrentProjectCards(heading.dataset.project)
         })
         projects.appendChild(heading)
     }
-    
-    // Update the title over the notes container to be the currently selected project.
-    function updateLayoutTitle(title) {
-        layout.updateProjectTitle(title)
-    }
 
     return { projects }
+
 })()
 
-// Responsible for the display and manipulation of the display.
+
+
 const displayViewer = (function() {
-    const container = layout.notesContainer
+    const container = layoutManager.notesContainer
 
     function populateAllCards() {
         deleteAllCards()
@@ -161,4 +164,4 @@ const displayViewer = (function() {
     }
 })()
 
-export { layout, projectList }
+export { layoutManager, projectListManager }

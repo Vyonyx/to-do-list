@@ -8,6 +8,7 @@ const notesManager = (function(){
 
     createProject(allNotes)
     findProject(allNotes).addNewNote(createNewNote('Book a trip.'))
+    createProject('Yolo')
 
     function createProject(title) {
         const project = {
