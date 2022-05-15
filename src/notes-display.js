@@ -144,13 +144,20 @@ const formDisplay = (function() {
         const form = document.createElement('form')
         form.id = 'card-form'
 
-        formInformation.title = createInputElement('Title')
-        formInformation.description = createInputElement('Description', 'textarea')
-        formInformation.dueDate = createInputElement('Due Date')
-        formInformation.priority = createInputElement('Priority')
-        formInformation.submitButton = document.createElement('button')
-        formInformation.submitButton.innerText = 'Submit'
-        form.appendChild(formInformation.submitButton)
+        const title = createInputElement('Title')
+        const firstItem = createInputElement('Note')
+        title.classList.add('title')
+        firstItem.classList.add('item')
+        const description = createInputElement('Description', 'textarea')
+        const dueDate = createInputElement('Due Date')
+        const priority = createInputElement('Priority')
+
+        const submitButton = createContainerElement('div', 'submit-button')
+        const exitButton = createContainerElement('div', 'exit-button')
+        submitButton.innerText = 'Submit'
+        exitButton.innerText = 'X'
+        form.appendChild(submitButton)
+        form.appendChild(exitButton)
     
         container.appendChild(form)
     }
@@ -166,14 +173,15 @@ const formDisplay = (function() {
         createNewForm()
     }
 
-    function getFormInformation() {
-
+    function toggleFormDisplay() {
+        container.classList.contains('hidden') ? container.classList.remove('hidden') : container.classList.add('hidden')
     }
 
     return {
         container,
         resetForm,
-        formInformation
+        formInformation,
+        toggleFormDisplay
     }
 })()
 

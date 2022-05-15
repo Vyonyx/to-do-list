@@ -17,16 +17,18 @@ document.addEventListener('click', function(e) {
     e.target.addEventListener('click', cardManager.populateCurrentProjectCards(e.target.dataset.project))
 })
 
-// document.addEventListener('click', function(e) {
-//     if (!e.target.classList == 'add-note-button') return
-//     e.target.addEventListener('mousedown', function() {
-//         formDisplay.resetForm()
-//         formDisplay.container.classList.remove('hidden')
-//     })
-// })
-
 addNote.button.addEventListener('click', function() {
 
     formDisplay.resetForm()
-    formDisplay.container.classList.remove('hidden')
+    formDisplay.toggleFormDisplay()
+})
+
+document.addEventListener('click', function(e) {
+    if (!e.target.classList.contains('submit-button')) return
+    console.log('submit')
+})
+
+document.addEventListener('click', function(e) {
+    if (!e.target.classList.contains('exit-button')) return
+    formDisplay.toggleFormDisplay()
 })
