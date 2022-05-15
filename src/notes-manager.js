@@ -8,16 +8,26 @@ const notesManager = (function(){
     const projectListTitle = 'Project List'
 
     const myProject = createProject(allNotes)
+    const newProject = createProject('Second Project')
+    const newProject2 = createProject('Third Project')
     const myNote = createNote(
-        'Hello World', 
-        'Does this work?',
-        null,
+        'Note Two', 
+        'First item in list of to-dos?',
+        'Second Project',
         'A general representation of how my card may be formatted.',
         '15/05',
         'high'
     )
 
-    const newProject = createProject('Please work')
+    const myNote2 = createNote(
+        'Note Three', 
+        'First item in list of to-dos?',
+        'Third Project',
+        'A general representation of how my card may be formatted.',
+        '15/05',
+        'high'
+    )
+
     function createProject(title) {
         const project = {
             title,
@@ -32,10 +42,10 @@ const notesManager = (function(){
     function createNote(title, firstItem, projectTitle, description, dueDate, priority) {
         const note = {
             title,
-            description: typeof description === 'undefined' ? '' : description,
+            description: description || '',
             items: [firstItem],
-            dueDate: typeof dueDate === 'undefined' ? '' : dueDate,
-            priority: typeof priority === 'undefined'? '' : priority,
+            dueDate: dueDate || '',
+            priority: priority || '',
             addItem: function(newItem) { this.items.push(newItem) }
         }
         if (projectTitle == null) {
@@ -43,6 +53,7 @@ const notesManager = (function(){
         } else if (projectTitle) {
             findProject(projectTitle).addNote(note)
         }
+        return note
     }
 
     function findProject(title) { return projects[projects.findIndex(projects => projects.title == title)] }

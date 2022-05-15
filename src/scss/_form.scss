@@ -1,0 +1,54 @@
+@import 'utilities';
+
+.hidden {
+    display: none;
+}
+
+.form-display-container {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, .75);
+    form {
+        @include flexCenter(column);
+        align-items: stretch;
+        gap: 20px;
+
+        position: relative;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        width: 500px;
+        padding: 50px;
+        padding-bottom: 100px;
+        background-color: white;
+        border-radius: 20px;
+        p {
+            color: black;
+            input, textarea {
+                position: absolute;
+                right: 50px;
+                border: 2px solid red;
+                width: 200px;
+            }
+            textarea {
+                resize: vertical;
+            }
+        }
+        button {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            align-self: center;
+            padding: 0.75rem 1.5rem;
+            border-radius: .5rem;
+            border: 1px solid black;
+            color: white;
+            background-color: black;
+            &:hover {
+                font-weight: bold;
+            }
+        }
+    }
+}

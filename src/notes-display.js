@@ -64,13 +64,9 @@ const projectListManager = (function(){
 
     function createNewProjectHeading(title) {
         const heading = createHeadingElement('h3', title)
+        heading.classList.add('heading')
         heading.dataset.project = title
         layoutManager.listContainer.appendChild(heading)
-
-        heading.addEventListener('click', function() {
-            layoutManager.updateProjectTitle(title)
-            cardManager.populateCurrentProjectCards(heading.dataset.project)
-        })
     }
 
     return { refreshList }
@@ -100,15 +96,6 @@ const cardManager = (function() {
             const project = notesManager.projects.find(project => project.title == selectedListHeading)
             project.notes.forEach(item => createCard(item))
         }
-        // notesManager.projects.forEach(project => {
-        //     if (project.title == notesManager.allNotes && project.title == selectedListHeading) {
-        //         populateAllCards()
-        //     } else if (project.title == selectedListHeading) {
-        //         project.notes.forEach(note => {
-        //             createCard(note)
-        //         })
-        //     }
-        // })
     }
 
     function createCard(note) {
@@ -132,4 +119,62 @@ const cardManager = (function() {
     
 })()
 
-export { layoutManager, projectListManager, cardManager }
+
+
+const formDisplay = (function() {
+    
+    let formInformation = {}
+    const container = createContainerElement('div', 'form-display-container')
+    container.classList.add('hidden')
+    resetForm()
+
+    function createNewForm() {
+
+        function createInputElement(labelHeading = 'Label', type = 'input') {
+            const element = document.createElement(type)
+            element.id = String(labelHeading).toLowerCase()
+            element.formID = form.id
+            const label = document.createElement('p')
+            label.innerText = `${labelHeading}: `
+            label.appendChild(element)
+            form.appendChild(label)
+            return element
+        }
+
+        const form = document.createElement('form')
+        form.id = 'card-form'
+
+        formInformation.title = createInputElement('Title')
+        formInformation.description = createInputElement('Description', 'textarea')
+        formInformation.dueDate = createInputElement('Due Date')
+        formInformation.priority = createInputElement('Priority')
+        formInformation.submitButton = document.createElement('button')
+        formInformation.submitButton.innerText = 'Submit'
+        form.appendChild(formInformation.submitButton)
+    
+        container.appendChild(form)
+    }
+
+    function deleteFormFields() {
+        while (container.firstChild) {
+            container.removeChild(container.lastChild)
+        }
+    }
+
+    function resetForm() {
+        deleteFormFields()
+        createNewForm()
+    }
+
+    function getFormInformation() {
+
+    }
+
+    return {
+        container,
+        resetForm,
+        formInformation
+    }
+})()
+
+export { layoutManager, projectListManager, cardManager, formDisplay }
