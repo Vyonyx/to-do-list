@@ -1,4 +1,5 @@
 import notesManager from './notes-manager'
+import formManager from '../form'
 
 function createContainerElement(type, classID) {
     const container = document.createElement(type)
@@ -126,35 +127,36 @@ const formDisplay = (function() {
     let formInformation = {}
     const container = createContainerElement('div', 'form-display-container')
     container.classList.add('hidden')
-    resetForm()
 
     function createNewForm() {
 
+        const form = document.createElement('form')
+        form.name = 'card-form'
+        
         function createInputElement(labelHeading = 'Label', type = 'input') {
             const element = document.createElement(type)
-            element.id = String(labelHeading).toLowerCase()
-            element.formID = form.id
-            const label = document.createElement('p')
-            label.innerText = `${labelHeading}: `
-            label.appendChild(element)
-            form.appendChild(label)
+            const para = document.createElement('p')
+
+            element.name = String(labelHeading).toLowerCase()
+            para.innerText = `${labelHeading}: `
+
+            para.appendChild(element)
+            form.appendChild(para)
+
             return element
         }
 
-        const form = document.createElement('form')
-        form.id = 'card-form'
-
         const title = createInputElement('Title')
         const firstItem = createInputElement('Note')
-        title.classList.add('title')
         firstItem.classList.add('item')
         const description = createInputElement('Description', 'textarea')
         const dueDate = createInputElement('Due Date')
         const priority = createInputElement('Priority')
 
-        const submitButton = createContainerElement('div', 'submit-button')
+        const submitButton = createContainerElement('button', 'submit-button')
         const exitButton = createContainerElement('div', 'exit-button')
         submitButton.innerText = 'Submit'
+        submitButton.type = 'submit'
         exitButton.innerText = 'X'
         form.appendChild(submitButton)
         form.appendChild(exitButton)
@@ -162,26 +164,12 @@ const formDisplay = (function() {
         container.appendChild(form)
     }
 
-    function deleteFormFields() {
-        while (container.firstChild) {
-            container.removeChild(container.lastChild)
-        }
-    }
-
-    function resetForm() {
-        deleteFormFields()
-        createNewForm()
-    }
-
     function toggleFormDisplay() {
         container.classList.contains('hidden') ? container.classList.remove('hidden') : container.classList.add('hidden')
     }
 
     return {
-        container,
-        resetForm,
-        formInformation,
-        toggleFormDisplay
+        container
     }
 })()
 

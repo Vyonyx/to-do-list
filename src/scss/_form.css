@@ -1,0 +1,33 @@
+form {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: grid;
+    grid-auto-rows: 50px;
+    padding: 30px 100px;
+    padding-bottom: 50px;
+    width: 500px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, .75);
+}
+
+form div {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+form div input, textarea {
+    position: absolute;
+    flex: 1;
+    left: 100px;
+    right: 30px;
+}
+
+button {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+}

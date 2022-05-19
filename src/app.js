@@ -18,14 +18,14 @@ document.addEventListener('click', function(e) {
 })
 
 addNote.button.addEventListener('click', function() {
-
     formDisplay.resetForm()
     formDisplay.toggleFormDisplay()
 })
 
-document.addEventListener('click', function(e) {
-    if (!e.target.classList.contains('submit-button')) return
-    console.log('submit')
+const form = document.forms['card-form']
+document.querySelector('form').addEventListener('click', (e) => {
+    console.log('pls work')
+    return false
 })
 
 document.addEventListener('click', function(e) {
