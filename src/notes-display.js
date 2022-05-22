@@ -1,5 +1,5 @@
 import notesManager from './notes-manager'
-import formManager from '../form'
+import formManager from './form'
 
 function createContainerElement(type, classID) {
     const container = document.createElement(type)
@@ -107,6 +107,12 @@ const cardManager = (function() {
         const dueDate = createHeadingElement('h5', note.dueDate)
         const priority = createHeadingElement('h5', note.priority)
 
+        Object.keys(note).forEach(key => {
+            if (key === 'title') { console.log(`This key is a title and an h3 heading`) }
+            else if (key === 'description') { console.log(`This key is a description in a p tag`) }
+            else console.log(`This key is an h5 heading`) 
+        })
+
         addToContainer([title, description, dueDate, priority])
         layoutManager.notesContainer.appendChild(container)
 
@@ -123,53 +129,16 @@ const cardManager = (function() {
 
 
 const formDisplay = (function() {
-    
-    let formInformation = {}
-    const container = createContainerElement('div', 'form-display-container')
+    const container = formManager.container
     container.classList.add('hidden')
-
-    function createNewForm() {
-
-        const form = document.createElement('form')
-        form.name = 'card-form'
-        
-        function createInputElement(labelHeading = 'Label', type = 'input') {
-            const element = document.createElement(type)
-            const para = document.createElement('p')
-
-            element.name = String(labelHeading).toLowerCase()
-            para.innerText = `${labelHeading}: `
-
-            para.appendChild(element)
-            form.appendChild(para)
-
-            return element
-        }
-
-        const title = createInputElement('Title')
-        const firstItem = createInputElement('Note')
-        firstItem.classList.add('item')
-        const description = createInputElement('Description', 'textarea')
-        const dueDate = createInputElement('Due Date')
-        const priority = createInputElement('Priority')
-
-        const submitButton = createContainerElement('button', 'submit-button')
-        const exitButton = createContainerElement('div', 'exit-button')
-        submitButton.innerText = 'Submit'
-        submitButton.type = 'submit'
-        exitButton.innerText = 'X'
-        form.appendChild(submitButton)
-        form.appendChild(exitButton)
-    
-        container.appendChild(form)
-    }
 
     function toggleFormDisplay() {
         container.classList.contains('hidden') ? container.classList.remove('hidden') : container.classList.add('hidden')
     }
 
     return {
-        container
+        container,
+        toggleFormDisplay
     }
 })()
 

@@ -4,72 +4,47 @@
     display: none;
 }
 
-.form-display-container {
+.form-container {
     position: fixed;
     inset: 0;
     background-color: rgba(0, 0, 0, .75);
-    form {
-        @include flexCenter(column);
-        align-items: stretch;
-        gap: 20px;
+    z-index: 10;
 
-        position: relative;
+    form {
+        position: fixed;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
+        display: grid;
+        grid-auto-rows: 50px;
+        padding: 30px 100px;
+        padding-bottom: 50px;
+        width: 700px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, .75);
+        background: white;
+        
+        div {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            
+            label {
+                color: black;
+            }
 
-        width: 500px;
-        padding: 50px;
-        padding-bottom: 100px;
-        background-color: white;
-        border-radius: 20px;
-
-        .title::before {
-            color: gold;
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: 5;
-        }
-        p {
-            color: black;
             input, textarea {
                 position: absolute;
-                right: 50px;
-                border: 2px solid red;
-                width: 200px;
+                flex: 1;
+                left: 100px;
+                right: 30px;
             }
-            textarea {
-                resize: vertical;
-            }
-        }
-        .submit-button {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            align-self: center;
-            padding: 0.75rem 1.5rem;
-            border-radius: .5rem;
-            border: 1px solid black;
-            color: white;
-            background-color: black;
-            &:hover {
-                font-weight: bold;
-            }
-        }
-        .exit-button {
-            @include flexCenter(row);
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 20px;
-            height: 20px;
-            border: 1px solid black;
-            border-radius: 50%;
-            &:hover {
-                cursor: pointer;
-                border-width: 2px;
+            
+            button {
+                position: fixed;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
             }
         }
     }

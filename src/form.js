@@ -1,4 +1,4 @@
-formManager = (function() {
+const formManager = (function() {
     const formName = 'formName'
     const formHeading = 'Heading'
     
@@ -15,6 +15,9 @@ formManager = (function() {
 
     createSubmitButton()
     createInput('Title')
+    createInput('Description', 'textarea')
+    createInput('Due Date')
+    createInput('Priority')
 
     function createInput(nameID, type = 'input'){
         const container = document.createElement('div')
@@ -36,6 +39,7 @@ formManager = (function() {
         const container = document.createElement('div')
         const button = document.createElement('button')
 
+        button.classList.add('submit-button')
         button['type'] = 'submit'
         button['htmlFor'] = 
         button.innerText = text
@@ -67,3 +71,5 @@ formManager = (function() {
         getFormInformation
     }
 })()
+
+export default formManager
