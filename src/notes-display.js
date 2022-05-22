@@ -102,21 +102,24 @@ const cardManager = (function() {
     function createCard(note) {
 
         const container = createContainerElement('div', 'card')
-        const title = createHeadingElement('h3', note.title, 'card-title')
-        const description = createHeadingElement('p', note.description)
-        const dueDate = createHeadingElement('h5', note.dueDate)
-        const priority = createHeadingElement('h5', note.priority)
 
         Object.keys(note).forEach(key => {
-            if (key === 'title') { console.log(`This key is a title and an h3 heading`) }
-            else if (key === 'description') { console.log(`This key is a description in a p tag`) }
-            else console.log(`This key is an h5 heading`) 
+            if (typeof note[key] === 'function') return
+            let element
+            if (key === 'title') {
+                element = createHeadingElement('h3', note[key], 'card-title')
+            } else if (key === 'description'){
+                element = createHeadingElement('p', note[key])
+            } else {
+                if (key === 'priority') {element = createHeadingElement('h5', `Priority: ${note[key]}`)}
+                else if (key === 'dueDate') {element = createHeadingElement('h5', `Due Date: ${note[key]}`)}
+                else {element = createHeadingElement('h5', note[key])}
+            }
+            container.appendChild(element)
         })
-
-        addToContainer([title, description, dueDate, priority])
         layoutManager.notesContainer.appendChild(container)
 
-        function addToContainer(items) { items.forEach(item => container.appendChild(item)) }
+        // function addToContainer(items) { items.forEach(item => container.appendChild(item)) }
     }
 
     return {

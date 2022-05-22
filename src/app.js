@@ -26,8 +26,6 @@ document.addEventListener('click', function(e) {
 const submitButton = document.querySelector('.submit-button')
 submitButton.addEventListener('click', (e) => {
     const formFieldData = formManager.getFormInformation(e)
-    Object.keys(formFieldData).forEach(key => {
-        const value = formFieldData[key]
-        console.log(`Key: ${key}, Value: ${value}`)
-    })
+    const newNote = notesManager.createNote(formFieldData)
+    console.table(newNote)
 })
