@@ -28,23 +28,28 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+
+            h1 {
+                justify-self: center;
+                align-self: center;
+            }
             
             label {
                 color: black;
             }
 
-            input, textarea {
+            input, textarea, select {
                 position: absolute;
                 flex: 1;
                 left: 100px;
                 right: 30px;
             }
-            
             button {
-                position: fixed;
-                bottom: 20px;
+                position: absolute;
                 left: 50%;
-                transform: translateX(-50%);
+                top: 50%;
+                transform: translate(-50%, -50%);
+                padding: .75rem 1.25rem;
             }
         }
     }

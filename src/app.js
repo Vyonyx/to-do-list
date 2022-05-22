@@ -26,6 +26,11 @@ document.addEventListener('click', function(e) {
 const submitButton = document.querySelector('.submit-button')
 submitButton.addEventListener('click', (e) => {
     const formFieldData = formManager.getFormInformation(e)
+    if (!formFieldData.title) {
+        alert('Please fill out title information.')
+        return
+    } 
     const newNote = notesManager.createNote(formFieldData)
-    console.table(newNote)
+    cardManager.populateAllCards(notesManager.getAllNotes())
+    formDisplay.toggleFormDisplay()
 })

@@ -3,31 +3,14 @@
 const notesManager = (function(){
 
     let projects = []
+    let notes = []
 
     const allNotes = 'All Notes'
     const projectListTitle = 'Project List'
 
     const myProject = createProject(allNotes)
-    const newProject = createProject('Second Project')
-    const newProject2 = createProject('Third Project')
-    const myNote = createNote(
-        'Note Two', 
-        'First item in list of to-dos?',
-        'Second Project',
-        'A general representation of how my card may be formatted.',
-        '15/05',
-        'high'
-    )
-
-    const myNote2 = createNote(
-        'Note Three', 
-        'First item in list of to-dos?',
-        'Third Project',
-        'A general representation of how my card may be formatted.',
-        '15/05',
-        'high'
-    )
-
+    const secondProject = createProject('Second Project')
+    
     function createProject(title) {
         const project = {
             title,
@@ -39,34 +22,36 @@ const notesManager = (function(){
         return project
     }
     
-    function createNote(title, firstItem, projectTitle, description, dueDate, priority) {
+    function createNote(formData) {
         const note = {
-            title,
-            description: description || '',
-            items: [firstItem],
-            dueDate: dueDate || '',
-            priority: priority || '',
+            title: formData.title,
+            description: formData.description || '',
+            items: [],
+            dueDate: formData.dueDate || '',
+            priority: formData.priority || '',
+            project: formData.project || allNotes,
             addItem: function(newItem) { this.items.push(newItem) }
         }
-        if (projectTitle == null) {
-            projects[0].addNote(note)
-        } else if (projectTitle) {
-            findProject(projectTitle).addNote(note)
-        }
+        note.addItem(formData['note item'])
+        notes.push(note)
         return note
     }
 
-    function findProject(title) { return projects[projects.findIndex(projects => projects.title == title)] }
     const getProjectList = () => projects.flatMap(project => project.title)
-    const getAllNotes = () => projects.flatMap(project => project.notes)
+    const getAllNotes = () => notes
+    const getProjectNotes = (project) => {
+        const projectNotes = notes.filter(note => note.project == project)
+        return projectNotes
+    }
 
     return {
         projects,
         createProject,
-        findProject,
         getProjectList,
         createNote,
         getAllNotes,
+        getProjectNotes,
+
         allNotes,
         projectListTitle,
     }

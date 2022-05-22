@@ -1,3 +1,5 @@
+import notesManager from "./notes-manager"
+
 const formManager = (function() {
     const formName = 'formName'
     const formHeading = 'Heading'
@@ -7,18 +9,20 @@ const formManager = (function() {
     container.classList.add('form-container')
     form['name'] = formName
     const heading = document.createElement('h1')
-    heading.innerText = 'Form Heading'
+    heading.innerText = 'New Note'
     form.appendChild(heading)
     container.appendChild(form)
 
     form.addEventListener('submit', getFormInformation)
 
-    createSubmitButton()
     createInput('Title')
-    createInput('Description', 'textarea')
+    createInput('Note Item')
     createInput('Due Date')
     createInput('Priority')
-
+    createInput('Description', 'textarea')
+    createSelect('Project')
+    createSubmitButton()
+    
     function createInput(nameID, type = 'input'){
         const container = document.createElement('div')
         const input = document.createElement(type)
@@ -32,6 +36,30 @@ const formManager = (function() {
 
         container.appendChild(label)
         container.appendChild(input)
+        form.appendChild(container)
+    }
+
+    function createSelect(nameID) {
+        const container = document.createElement('div')
+        const select = document.createElement('select')
+        const label = document.createElement('label')
+
+        select['name'] = String(nameID).toLowerCase()
+        select['id'] = String(nameID).toLowerCase()
+        label['htmlFor'] = String(nameID).toLowerCase()
+
+        label.innerText = 'Projects:'
+
+        notesManager.projects.forEach(project => {
+            const option = document.createElement('option')
+            option.value = project.title
+            option.innerText = project.title
+            if (option.value === notesManager.allNotes) option.selected = 'selected'
+            select.appendChild(option)
+        })
+
+        container.appendChild(label)
+        container.appendChild(select)
         form.appendChild(container)
     }
 
@@ -55,6 +83,9 @@ const formManager = (function() {
         inputs.forEach(input => {
             if (!input.value) return
             output[input.name] = input.value
+        })
+        inputs.forEach(input => {
+            if(input.value && typeof input != 'function') input.value = ''
         })
         return output
     }

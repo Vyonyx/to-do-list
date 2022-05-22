@@ -14,8 +14,6 @@ function createHeadingElement(type, text, classID) {
     return heading
 }
 
-
-
 const layoutManager = (function () {
 
     let projectsList = [];
@@ -51,16 +49,14 @@ const layoutManager = (function () {
 
 })()
 
-
-
 const projectListManager = (function(){
 
     const projects = createContainerElement('div')
-    refreshList(notesManager.getProjectList())
+    refreshList(notesManager.projects)
     
-    function refreshList(list) {
+    function refreshList(projectsList) {
         while (projects.firstChild) {projects.removeChild(projects.lastChild)}
-        list.forEach(item => createNewProjectHeading(item))
+        projectsList.forEach(project => createNewProjectHeading(project.title))
     }
 
     function createNewProjectHeading(title) {
@@ -73,8 +69,6 @@ const projectListManager = (function(){
     return { refreshList }
 
 })()
-
-
 
 const cardManager = (function() {
 
@@ -91,11 +85,12 @@ const cardManager = (function() {
 
     function populateCurrentProjectCards(selectedListHeading) {
         deleteAllCards()
-        if (selectedListHeading == notesManager.allNotes) {
+        if (selectedListHeading === notesManager.allNotes) {
             populateAllCards(notesManager.getAllNotes())
         } else {
-            const project = notesManager.projects.find(project => project.title == selectedListHeading)
-            project.notes.forEach(item => createCard(item))
+            const notes = notesManager.getProjectNotes(selectedListHeading)
+            if (notes == 'undefined') return
+            notes.forEach(note => createCard(note))
         }
     }
 
@@ -105,21 +100,26 @@ const cardManager = (function() {
 
         Object.keys(note).forEach(key => {
             if (typeof note[key] === 'function') return
+            if (key === 'project') return
             let element
             if (key === 'title') {
                 element = createHeadingElement('h3', note[key], 'card-title')
             } else if (key === 'description'){
                 element = createHeadingElement('p', note[key])
             } else {
-                if (key === 'priority') {element = createHeadingElement('h5', `Priority: ${note[key]}`)}
-                else if (key === 'dueDate') {element = createHeadingElement('h5', `Due Date: ${note[key]}`)}
-                else {element = createHeadingElement('h5', note[key])}
+                if (key === 'priority') {
+                    if (note[key]) element = createHeadingElement('h5', `Priority: ${note[key]}`)
+                    else return
+                }
+                else if (key === 'dueDate') {
+                    if (note[key]) element = createHeadingElement('h5', `Due Date: ${note[key]}`)
+                    else return
+                } else {element = createHeadingElement('h5', note[key])}
             }
             container.appendChild(element)
         })
         layoutManager.notesContainer.appendChild(container)
 
-        // function addToContainer(items) { items.forEach(item => container.appendChild(item)) }
     }
 
     return {
@@ -128,8 +128,6 @@ const cardManager = (function() {
     }
     
 })()
-
-
 
 const formDisplay = (function() {
     const container = formManager.container
