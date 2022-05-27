@@ -1,9 +1,0 @@
-@import 'variables';
-@import 'utilities';
-
-.header.container {
-    @include flexCenter(row);
-    h1 {
-        @include positionTitles();
-    }
-}

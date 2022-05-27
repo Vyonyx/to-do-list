@@ -1,8 +1,108 @@
 @import 'base';
-@import 'layout';
-@import 'list';
-@import 'header';
-@import 'accents';
-@import 'components';
-@import 'cards';
-@import 'form'
+
+$clr-background: rgb(238, 238, 238);
+$clr-primary: rgb(51, 6, 111);
+$clr-secondary: black;
+
+* {
+    color: $clr-secondary;
+}
+
+// Layout.
+body {
+    height: 100vh;
+    display: grid;
+    grid:
+    'projects-list header' 150px
+    'projects-list tasks-list' auto
+    'projects-list details' auto /
+    minmax(150px, 300px) minmax(250px, auto);
+    background-color: $clr-background;
+    .header {
+        grid-area: header;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 2rem 0;
+    }
+    .projects {
+        grid-area: projects-list;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    .tasks-container {
+        grid-area: tasks-list;
+        align-self: center;
+        justify-self: center;
+    }
+    .task-details-container {
+        grid-area: details;
+        width: 60vw;
+        align-self: center;
+        justify-self: center;
+    }
+}
+
+.header {
+    margin-bottom: 50px;
+}
+
+.projects {
+    padding-left: 50px;
+    gap: 3rem;
+    .project-heading {
+        letter-spacing: -.5px;
+        text-decoration: underline;
+    }
+    .projects-list {
+        .project-item {
+            cursor: pointer;
+            margin-bottom: 10px;
+            &:hover {
+                color: white;
+            }
+        }
+        .active-project {
+            cursor:crosshair;
+            font-weight: bolder;
+            &:hover {
+                color: currentColor;
+            }
+        }
+    }
+    background-color: darkgrey;
+}
+.task-details-container {
+    $separation: 20px;
+    p {
+        margin: $separation 0;
+    }
+    h5 + h5 {
+        margin-top: calc($separation * .5);
+    }
+}
+
+form {
+    input, textarea {
+        background: none;
+        border: none;
+        border-bottom: 1px solid black;
+        &::placeholder {
+            color: gray;
+        }
+    }
+    button {
+        $size: 20px;
+        width: $size;
+        height: $size;
+        background: none;
+        border: 1px solid black;
+        border-radius: 50%;
+        &:hover {
+            cursor: pointer;
+            border-width: 2px;
+        }
+    }
+}
+
