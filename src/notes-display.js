@@ -114,6 +114,18 @@ const cardManager = (function() {
                 else if (key === 'dueDate') {
                     if (note[key]) element = createHeadingElement('h5', `Due Date: ${note[key]}`)
                     else return
+                } else if (key === 'items') {
+                    const allItems = document.createElement('div')
+                    note[key].forEach(item => {
+                        const label = document.createElement('label')
+                        const newItem = document.createElement('input')
+                        newItem.type = 'checkbox'
+
+                        label.appendChild(newItem)
+                        label.appendChild(document.createTextNode(`  ${note[key]}`))
+                        allItems.appendChild(label)
+                    })
+                    element = allItems
                 } else {element = createHeadingElement('h5', note[key])}
             }
             container.appendChild(element)
