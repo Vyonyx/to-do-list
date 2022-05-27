@@ -4,9 +4,51 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>To Do List</title>
+    <title>TODO List</title>
 </head>
 <body>
-    
+    <div class="header">
+        <h1 class="title">Current Project Title</h1>
+    </div>
+
+    <div class="projects">
+        <h3 class="project-heading">Current TODO's</h3>
+        <ul class="projects-list">
+            <li class="project-item active-project">Project Title</li>
+            <li class="project-item">Project Title</li>
+            <li class="project-item">Project Title</li>
+        </ul>
+        <form action="" data-new-project-form>
+            <input type="text" placeholder="New Project Title" data-new-project-input>
+            <button type="submit" data-new-project-button>+</button>
+        </form>
+    </div>
+
+    <div class="tasks-container">
+        <h3 class="selected-project-title" data-tasks-title>Selected Project Title</h3>
+        <ul class="tasks-list">
+            <li class="task-item">Generic task</li>
+            <li class="task-item">Generic task</li>
+            <li class="task-item">Generic task</li>
+        </ul>
+        <form action="" data-new-task-form>
+            <input type="text" data-new-task-title placeholder="New task title.">
+            <div><textarea type="text" data-new-task-description placeholder="Task description."></textarea></div>
+            <input type="date" data-new-task-due-date>
+            <select name="priority" id="priority" data-new-task-priority>
+                <option value="low" selected>Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+            </select>
+            <button type="submit" data-new-task-button>+</button>
+        </form>
+    </div>
+
+    <div class="task-details-container" data-selected-task-details>
+        <h3 class="selected-task-title" data-selected task-title>Selected Task Title</h3>
+        <p class="task-description" data-selected-task-description>Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus quidem earum ab omnis nesciunt, ipsa eligendi.</p>
+        <h5 data-selected-task-due-date>Due Date:</h5>
+        <h5 data-selected-task-priority>Priority:</h5>
+    </div>
 </body>
 </html>
