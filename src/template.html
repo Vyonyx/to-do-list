@@ -28,28 +28,30 @@
         <h3 class="selected-project-title" data-tasks-title>Selected Project Title</h3>
         <div class="tasks-list">
             <div class="task">
-                <input type="checkbox">
-                <label>Generic task.</label>
+                <input type="checkbox" id="task-1">
+                <label for="task-1">Generic task.</label>
             </div>
             <div class="task">
-                <input type="checkbox">
-                <label>Generic task.</label>
+                <input type="checkbox" id="task-2">
+                <label for="task-2">Generic task.</label>
             </div>
             <div class="task">
-                <input type="checkbox">
-                <label>Generic task slightly longer.</label>
+                <input type="checkbox" id="task-3">
+                <label for="task-3">Generic task slightly longer.</label>
             </div>
         </div>
         <form action="" data-new-task-form>
             <input type="text" data-new-task-title placeholder="New task title.">
             <div><textarea type="text" data-new-task-description placeholder="Task description."></textarea></div>
-            <input type="date" data-new-task-due-date>
-            <select name="priority" id="priority" data-new-task-priority>
-                <option value="low" selected>Low</option>
-                <option value="medium">Medium</option>
-                <option value="high">High</option>
-            </select>
-            <button type="submit" data-new-task-button>+</button>
+            <label for="due-date">Due Date: <input type="date" id="due-date" data-new-task-due-date></label>
+            <label for="priority">Priority: 
+                <select name="priority" id="priority" data-new-task-priority>
+                    <option value="low" selected>Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                </select>
+            </label>
+            <button type="submit" data-new-task-button>+ New Task</button>
         </form>
     </div>
 
