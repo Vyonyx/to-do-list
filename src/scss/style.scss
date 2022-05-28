@@ -33,7 +33,6 @@ body {
     }
     .tasks-container {
         grid-area: tasks-list;
-        align-self: center;
         justify-self: center;
     }
     .task-details-container {
@@ -45,12 +44,14 @@ body {
 }
 
 .header {
-    margin-bottom: 50px;
+    border-bottom: 1px solid black;
 }
 
 .projects {
     padding-left: 50px;
     gap: 3rem;
+    border-right: 1px solid black;
+    background-color: darkgrey;
     .project-heading {
         letter-spacing: -.5px;
         text-decoration: underline;
@@ -71,10 +72,55 @@ body {
             }
         }
     }
-    background-color: darkgrey;
 }
+
+.tasks-container {
+    display: grid;
+    grid:
+    'title ... new' 50px
+    'task ... new' 250px /
+    350px 150px 100px;
+    justify-items: center;
+    margin-top: 50px;
+
+    .selected-project-title {
+        grid-area: title;
+        text-decoration: underline;
+        margin-bottom: 20px;
+    }
+    .tasks-list {
+        width: 100%;
+        grid-area: task;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+
+        .task {
+            width: 100%;
+            padding: 10px 0;
+            border-bottom: 1px solid grey;
+        }
+    }
+    [data-new-task-form] {
+        grid-area: new;
+        top: 100;
+        border: 2px solid black;
+        margin-top: 50px;
+        padding: 20px;
+
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+}
+
 .task-details-container {
     $separation: 20px;
+    height: 100%;
+    width: 100%;
+    padding: $separation;
+    border-top: 1px solid black;
     p {
         margin: $separation 0;
     }
@@ -91,6 +137,9 @@ form {
         &::placeholder {
             color: gray;
         }
+    }
+    textarea {
+        height: 50px;
     }
     button {
         $size: 20px;
