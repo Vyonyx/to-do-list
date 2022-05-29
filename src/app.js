@@ -9,6 +9,12 @@ const tasks = document.querySelector('[data-tasks-list]')
 const selectedProjectTitle = document.querySelector('[data-tasks-title')
 const deleteProjectButton = document.querySelector('[data-delete-project-button]')
 
+const newTaskForm = document.querySelector('[data-new-task-form]')
+const taskTitle = document.querySelector('[data-new-task-title]')
+const taskDescription = document.querySelector('[data-new-task-description]')
+const taskDate = document.querySelector('[data-new-task-due-date]')
+const taskPriority = document.querySelector('[data-new-task-priority]')
+
 let LOCAL_STORAGE_SELECTED_PROJECT_ID_KEY = 'todo.projectID'
 let LOCAL_STORAGE_PROJECTS_KEY = 'todo.projects'
 
@@ -17,6 +23,22 @@ let selectedProjectId = localStorage.getItem(LOCAL_STORAGE_SELECTED_PROJECT_ID_K
 
 deleteProjectButton.addEventListener('click', () => {
     projects = projects.filter(project => project.id != selectedProjectId)
+    saveAndRender()
+})
+
+// Add a new task to the selected project.
+newTaskForm.addEventListener('submit', e => {
+    e.preventDefault()
+    const currentProject = selectedProject()
+    const newTask = {
+        title: taskTitle.value,
+        description: taskDescription.value,
+        date: taskDate.value,
+        priority: taskPriority.value,
+        complete: false,
+        id: Date.now().toString()
+    }
+    currentProject.tasks.push(newTask)
     saveAndRender()
 })
 
@@ -52,9 +74,14 @@ function saveAndRender() {
 // Renders any updates to the screen.
 function render() {
     renderProjectList()
-    
+
     const currentProject = selectedProject()
     if (currentProject) {
+        if (currentProject.tasks.length === 0) {
+            selectedProjectTitle.innerText = ''
+        } else {
+            selectedProjectTitle.innerText = currentProject.title
+        }
         renderTaskList(currentProject)
     } else {
         selectedProjectTitle.innerText = ''
@@ -73,17 +100,16 @@ function selectedProject() {
 
 function renderTaskList(selectedProject) {
     clearElements(tasks)
-    selectedProjectTitle.innerText = selectedProject.title || ''
-    if (!selectedProject) return
+
     for (let task of selectedProject.tasks) {
         const container = document.createElement('div')
         container.classList.add('task')
         const input = document.createElement('input')
         input.type = 'checkbox'
-        input.id = `task-${task}`
+        input.id = `task-${task.id}`
         const label = document.createElement('label')
         label.innerText = task.title
-        label.htmlFor = `task-${task}`
+        label.htmlFor = `task-${task.id}`
         container.appendChild(input)
         container.appendChild(label)
         tasks.appendChild(container)

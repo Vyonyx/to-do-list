@@ -97,6 +97,10 @@ body {
             padding: 10px 0;
             border-bottom: 1px solid lightgray;
 
+            input {
+                margin-right: 10px;
+            }
+
             input:checked + label {
                 text-decoration: line-through;
             }
