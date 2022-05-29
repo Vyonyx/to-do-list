@@ -73,7 +73,7 @@ body {
 .tasks-container {
     display: grid;
     grid:
-    'title ... ...' auto
+    'title ... ...' 50px
     'task ... new' auto /
     minmax(200px, 2fr) minmax(50px, 100px) 1fr;
     gap: 10px;
@@ -86,13 +86,12 @@ body {
     }
     .tasks-list {
         grid-area: task;
-        align-self: start;
-        display: inline-flex;
+        display: flex;
         flex-direction: column;
-        justify-content: flex-start;
-        align-items: flex-start;
+        position: relative;
 
         .task {
+            display: block;
             width: 100%;
             padding: 10px 0;
             border-bottom: 1px solid lightgray;
@@ -103,6 +102,30 @@ body {
 
             input:checked + label {
                 text-decoration: line-through;
+            }
+        }
+
+        .task-buttons {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            position: absolute;
+            top: calc(100% + 10px);
+            button {
+                box-sizing: border-box;
+                border: 1px solid black;
+                background: none;
+                color: black;
+                border-radius: 5px;
+                padding: 0.75em 1.25em;
+                height: 20px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                &:hover {
+                    border-width: 2px;
+                }
             }
         }
     }

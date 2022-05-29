@@ -7,6 +7,7 @@ const newProjectInput = document.querySelector('[data-new-project-input]')
 const tasksContainer = document.querySelector('.tasks-container')
 const tasks = document.querySelector('[data-tasks-list]')
 const selectedProjectTitle = document.querySelector('[data-tasks-title')
+const deleteTaskButton = document.querySelector('[data-delete-task-button]')
 const deleteProjectButton = document.querySelector('[data-delete-project-button]')
 
 const newTaskForm = document.querySelector('[data-new-task-form]')
@@ -21,8 +22,23 @@ let LOCAL_STORAGE_PROJECTS_KEY = 'todo.projects'
 let projects =  JSON.parse(localStorage.getItem(LOCAL_STORAGE_PROJECTS_KEY)) || []
 let selectedProjectId = localStorage.getItem(LOCAL_STORAGE_SELECTED_PROJECT_ID_KEY)
 
+deleteTaskButton.addEventListener('click', () => {
+    const currentProject = selectedProject()
+    currentProject.tasks = currentProject.tasks.filter(task => !task.complete)
+    saveAndRender()
+})
+
 deleteProjectButton.addEventListener('click', () => {
     projects = projects.filter(project => project.id != selectedProjectId)
+    saveAndRender()
+})
+
+// If you click a task, toggle that corresponding task's complete boolean status.
+tasks.addEventListener('click', e => {
+    if (!e.target.tagName.toLowerCase() === 'input' || e.target.tagName.toLowerCase() === 'label') return
+    const currentProject = selectedProject()
+    const clickedTask = currentProject.tasks.find(task => task.id = e.target.id)
+    clickedTask.complete = clickedTask.complete ? false : true
     saveAndRender()
 })
 
@@ -52,7 +68,9 @@ newProjectForm.addEventListener('submit', e => {
 // Change the stored selected project ID.
 projectsList.addEventListener('click', e => {
     if (!e.target.tagName.toLowerCase() === 'li') return
-    selectedProjectId = e.target.id
+    if (e.target.id) {
+        selectedProjectId = e.target.id
+    }
     saveAndRender()
 })
 
@@ -77,11 +95,7 @@ function render() {
 
     const currentProject = selectedProject()
     if (currentProject) {
-        if (currentProject.tasks.length === 0) {
-            selectedProjectTitle.innerText = ''
-        } else {
-            selectedProjectTitle.innerText = currentProject.title
-        }
+        selectedProjectTitle.innerText = currentProject.title
         renderTaskList(currentProject)
     } else {
         selectedProjectTitle.innerText = ''
@@ -104,12 +118,14 @@ function renderTaskList(selectedProject) {
     for (let task of selectedProject.tasks) {
         const container = document.createElement('div')
         container.classList.add('task')
+        // container.id = `task-${task.id}`
         const input = document.createElement('input')
         input.type = 'checkbox'
-        input.id = `task-${task.id}`
+        input.id = task.id
+        input.checked = task.complete
         const label = document.createElement('label')
         label.innerText = task.title
-        label.htmlFor = `task-${task.id}`
+        label.htmlFor = task.id
         container.appendChild(input)
         container.appendChild(label)
         tasks.appendChild(container)

@@ -26,21 +26,26 @@
 
     <div class="tasks-container">
         <h3 class="selected-project-title" data-tasks-title>Selected Project Title</h3>
-        <div class="tasks-list" data-tasks-list>
-            <!-- <div class="task">
-                <input type="checkbox" id="task-1">
-                <label for="task-1">Generic task.</label>
+        <div class="tasks-list">
+            <div data-tasks-list>
+                <div class="task">
+                    <input type="checkbox" id="task-1">
+                    <label for="task-1">Generic task.</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="task-2">
+                    <label for="task-2">Generic task.</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="task-3">
+                    <label for="task-3">Generic task slightly longer.</label>
+                </div>
             </div>
-            <div class="task">
-                <input type="checkbox" id="task-2">
-                <label for="task-2">Generic task.</label>
+            <div class="task-buttons">
+                <button class="delete task-button" data-delete-task-button>Delete Completed</button>
+                <button class="delete project-button" data-delete-project-button>Delete Project</button>
             </div>
-            <div class="task">
-                <input type="checkbox" id="task-3">
-                <label for="task-3">Generic task slightly longer.</label>
-            </div> -->
         </div>
-        <button class="delete-button" data-delete-project-button>Delete Project</button>
         <form action="" data-new-task-form>
             <input type="text" data-new-task-title placeholder="New task title.">
             <div><textarea type="text" data-new-task-description placeholder="Task description."></textarea></div>
