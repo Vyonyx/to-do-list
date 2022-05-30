@@ -15,7 +15,7 @@ body {
     grid:
     'projects-list header' 150px
     'projects-list tasks-list' auto
-    'projects-list details' auto /
+    'projects-list details' 250px /
     minmax(175px, 250px) minmax(250px, auto);
     background-color: $clr-background;
     .header {
@@ -95,6 +95,7 @@ body {
             width: 100%;
             padding: 10px 0;
             border-bottom: 1px solid lightgray;
+            position: relative;
 
             input {
                 margin-right: 10px;
@@ -102,6 +103,12 @@ body {
 
             input:checked + label {
                 text-decoration: line-through;
+            }
+
+            img {
+                position: absolute;
+                right: 0;
+                top: 25%;
             }
         }
 

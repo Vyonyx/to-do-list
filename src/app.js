@@ -1,4 +1,5 @@
 import './scss/style.scss'
+import icon from './info.svg'
 
 const projectsList = document.querySelector('[data-projects]')
 const newProjectForm = document.querySelector('[data-new-project-form]')
@@ -15,6 +16,8 @@ const taskTitle = document.querySelector('[data-new-task-title]')
 const taskDescription = document.querySelector('[data-new-task-description]')
 const taskDate = document.querySelector('[data-new-task-due-date]')
 const taskPriority = document.querySelector('[data-new-task-priority]')
+
+const taskDetails = document.querySelector('[data-selected-task-details]')
 
 let LOCAL_STORAGE_SELECTED_PROJECT_ID_KEY = 'todo.projectID'
 let LOCAL_STORAGE_PROJECTS_KEY = 'todo.projects'
@@ -35,12 +38,42 @@ deleteProjectButton.addEventListener('click', () => {
 
 // If you click a task, toggle that corresponding task's complete boolean status.
 tasks.addEventListener('click', e => {
-    if (!e.target.tagName.toLowerCase() === 'input' || e.target.tagName.toLowerCase() === 'label') return
-    const currentProject = selectedProject()
-    const clickedTask = currentProject.tasks.find(task => task.id = e.target.id)
-    clickedTask.complete = clickedTask.complete ? false : true
-    saveAndRender()
+    if (e.target.tagName.toLowerCase() === 'input' || e.target.tagName.toLowerCase() === 'label') {
+        const currentProject = selectedProject()
+        const clickedTask = currentProject.tasks.find(task => task.id == e.target.id)
+        clickedTask.complete = clickedTask.complete ? false : true
+        saveAndRender()
+    }
+    if (e.target.tagName.toLowerCase() === 'img') {
+        const currentProject = selectedProject()
+        const clickedTask = currentProject.tasks.find(task => task.id === e.target.id)
+        renderTaskDetails(clickedTask)
+    }
 })
+
+// Show the details of the selected task.
+function renderTaskDetails(task) {
+    clearTaskDetails()
+
+    const heading = document.createElement('h3')
+    heading.innerText = task.title
+    taskDetails.appendChild(heading)
+    if (task.description) {
+        const description = document.createElement('p')
+        description.innerText = `Description: ${task.description}`
+        taskDetails.appendChild(description)
+    }
+    const dueDate = document.createElement('h5')
+    dueDate.innerText = `Due Date: ${task.date || 'No Deadline'}`
+    taskDetails.appendChild(dueDate)
+    const priority = document.createElement('h5')
+    priority.innerText = `Priority: ${task.priority.toUpperCase()[0] + task.priority.slice(1)}`
+    taskDetails.appendChild(priority)
+}
+
+function clearTaskDetails() {
+    clearElements(taskDetails)
+}
 
 // Add a new task to the selected project.
 newTaskForm.addEventListener('submit', e => {
@@ -54,6 +87,7 @@ newTaskForm.addEventListener('submit', e => {
         complete: false,
         id: Date.now().toString()
     }
+    taskTitle.value = taskDescription.value = taskDate.value = null
     currentProject.tasks.push(newTask)
     saveAndRender()
 })
@@ -92,6 +126,7 @@ function saveAndRender() {
 // Renders any updates to the screen.
 function render() {
     renderProjectList()
+    clearTaskDetails()
 
     const currentProject = selectedProject()
     if (currentProject) {
@@ -118,7 +153,6 @@ function renderTaskList(selectedProject) {
     for (let task of selectedProject.tasks) {
         const container = document.createElement('div')
         container.classList.add('task')
-        // container.id = `task-${task.id}`
         const input = document.createElement('input')
         input.type = 'checkbox'
         input.id = task.id
@@ -126,14 +160,21 @@ function renderTaskList(selectedProject) {
         const label = document.createElement('label')
         label.innerText = task.title
         label.htmlFor = task.id
+        label.id = task.id
+        const infoIcon = new Image(20, 20)
+        infoIcon.classList.add('icon')
+        infoIcon.src = icon
+        infoIcon.id = task.id
         container.appendChild(input)
         container.appendChild(label)
+        container.appendChild(infoIcon)
         tasks.appendChild(container)
     }
 }
 
 // Take the projects in the array of objects variable and create an updated list.
 function renderProjectList() {
+    clearElements(tasks)
     clearElements(projectsList)
     for (let project of projects) {
         const newProject = document.createElement('li')
